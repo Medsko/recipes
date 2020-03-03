@@ -17,8 +17,12 @@ public class Label {
 
 	private String name;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "labels")
 	private List<Recipe> recipes = new ArrayList<>();
+
+	public void addRecipe(Recipe recipe) {
+		recipes.add(recipe);
+	}
 
 	public Long getId() {
 		return id;

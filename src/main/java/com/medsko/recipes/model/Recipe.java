@@ -63,12 +63,25 @@ public class Recipe {
 		return directionSteps;
 	}
 
+	public void addDirectionStep(DirectionStep directionStep) {
+		directionSteps.add(directionStep);
+	}
+
 	public List<Label> getLabels() {
 		return labels;
 	}
 
+	public void addLabel(Label label) {
+		labels.add(label);
+	}
+
 	public List<Ingredient> getIngredients() {
 		return ingredients;
+	}
+
+	public void addIngredient(Ingredient ingredient) {
+		ingredient.setRecipe(this);
+		ingredients.add(ingredient);
 	}
 
 	public Notes getNotes() {
@@ -84,6 +97,7 @@ public class Recipe {
 	}
 
 	public void setNotes(Notes notes) {
+		notes.setRecipe(this);
 		this.notes = notes;
 	}
 

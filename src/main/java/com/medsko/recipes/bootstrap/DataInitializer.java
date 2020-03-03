@@ -80,7 +80,7 @@ public class DataInitializer implements CommandLineRunner {
 
 		Stream.of(spicyGrilledChickenTacosLabels)
 				.map(this::createOrRetrieveLabel)
-				.forEach(label -> spicyGrilledChickenTacos.getLabels().add(label));
+				.forEach(spicyGrilledChickenTacos::addLabel);
 
 		recipeRepository.save(spicyGrilledChickenTacos);
 
@@ -136,7 +136,6 @@ public class DataInitializer implements CommandLineRunner {
 		// First check if the label already exists, and if so, return the existing entity.
 		Optional<Label> optionalLabel = labelRepository.findByName(name);
 		if (optionalLabel.isPresent()) return optionalLabel.get();
-		// New label. Create it and save it to the repo to avoid reference exceptions.
 		Label label = new Label();
 		label.setName(name);
 		return labelRepository.save(label);
