@@ -23,14 +23,12 @@ public class Recipe {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String description;
 	private Integer prepTime;
 	private Integer cookTime;
 	private Integer servings;
 	private String source;
 	private String url;
-
-	@Lob
-	private String directions;
 
 	@Enumerated(value = EnumType.STRING)
 	private Difficulty difficulty;
@@ -40,6 +38,9 @@ public class Recipe {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Notes notes;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<DirectionStep> directionSteps = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Ingredient> ingredients = new ArrayList<>();
@@ -58,6 +59,10 @@ public class Recipe {
 		this.id = id;
 	}
 
+	public List<DirectionStep> getDirectionSteps() {
+		return directionSteps;
+	}
+
 	public List<Label> getLabels() {
 		return labels;
 	}
@@ -68,6 +73,14 @@ public class Recipe {
 
 	public Notes getNotes() {
 		return notes;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setNotes(Notes notes) {
@@ -112,14 +125,6 @@ public class Recipe {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String getDirections() {
-		return directions;
-	}
-
-	public void setDirections(String directions) {
-		this.directions = directions;
 	}
 
 	public Difficulty getDifficulty() {
