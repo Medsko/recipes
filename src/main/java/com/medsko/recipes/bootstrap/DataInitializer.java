@@ -8,6 +8,7 @@ import com.medsko.recipes.model.builders.RecipeBuilder;
 import com.medsko.recipes.repositories.LabelRepository;
 import com.medsko.recipes.repositories.RecipeRepository;
 import com.medsko.recipes.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Component
+@Slf4j
 public class DataInitializer implements CommandLineRunner {
 
 	private final LabelRepository labelRepository;
@@ -84,7 +86,7 @@ public class DataInitializer implements CommandLineRunner {
 
 		recipeRepository.save(spicyGrilledChickenTacos);
 
-		System.out.println("Initialized the spicy grilled chicken recipe!");
+		log.debug("Initialized the spicy grilled chicken recipe!");
 	}
 
 	private void initializeGuacamole() {
@@ -129,7 +131,7 @@ public class DataInitializer implements CommandLineRunner {
 
 		recipeRepository.save(guac);
 
-		System.out.println("Initialized the guacamole recipe!");
+		log.debug("Initialized the guacamole recipe!");
 	}
 
 	private Label createOrRetrieveLabel(String name) {
@@ -138,6 +140,7 @@ public class DataInitializer implements CommandLineRunner {
 		if (optionalLabel.isPresent()) return optionalLabel.get();
 		Label label = new Label();
 		label.setName(name);
+		log.debug("Label " + label.getName() + " will be saved as new label.");
 		return labelRepository.save(label);
 	}
 
@@ -148,6 +151,7 @@ public class DataInitializer implements CommandLineRunner {
 		}
 		UnitOfMeasure unitOfMeasure = new UnitOfMeasure();
 		unitOfMeasure.setDescription(description);
+		log.debug("Unit of measure " + unitOfMeasure.getDescription() + " will be saved as new unit of measure.");
 		return unitOfMeasureRepository.save(unitOfMeasure);
 	}
 

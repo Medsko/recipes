@@ -1,5 +1,7 @@
 package com.medsko.recipes.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +10,7 @@ import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 public class Label {
 
@@ -24,23 +27,4 @@ public class Label {
 		recipes.add(recipe);
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<Recipe> getRecipes() {
-		return recipes;
-	}
 }
