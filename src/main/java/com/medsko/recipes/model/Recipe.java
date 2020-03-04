@@ -59,6 +59,7 @@ public class Recipe {
 	}
 
 	public void addLabel(Label label) {
+		label.addRecipe(this);
 		labels.add(label);
 	}
 

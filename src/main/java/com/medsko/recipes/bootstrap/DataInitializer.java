@@ -9,8 +9,10 @@ import com.medsko.recipes.repositories.LabelRepository;
 import com.medsko.recipes.repositories.RecipeRepository;
 import com.medsko.recipes.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -18,7 +20,7 @@ import java.util.stream.Stream;
 
 @Component
 @Slf4j
-public class DataInitializer implements CommandLineRunner {
+public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
 	private final LabelRepository labelRepository;
 	private final UnitOfMeasureRepository unitOfMeasureRepository;
@@ -31,7 +33,8 @@ public class DataInitializer implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	@Transactional
+	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 		initializeSpicyGrilledChicken();
 		initializeGuacamole();
 	}
@@ -86,7 +89,7 @@ public class DataInitializer implements CommandLineRunner {
 
 		recipeRepository.save(spicyGrilledChickenTacos);
 
-		log.debug("Initialized the spicy grilled chicken recipe!");
+		log.info("Initialized the spicy grilled chicken recipe!");
 	}
 
 	private void initializeGuacamole() {
@@ -131,7 +134,7 @@ public class DataInitializer implements CommandLineRunner {
 
 		recipeRepository.save(guac);
 
-		log.debug("Initialized the guacamole recipe!");
+		log.info("Initialized the guacamole recipe!");
 	}
 
 	private Label createOrRetrieveLabel(String name) {

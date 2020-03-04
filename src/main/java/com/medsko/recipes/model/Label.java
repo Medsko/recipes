@@ -1,6 +1,7 @@
 package com.medsko.recipes.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(exclude = {"recipes"})
 @Entity
 public class Label {
 
