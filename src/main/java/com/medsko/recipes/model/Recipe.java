@@ -42,7 +42,7 @@ public class Recipe {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Notes notes;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
 	private List<DirectionStep> directionSteps = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL)

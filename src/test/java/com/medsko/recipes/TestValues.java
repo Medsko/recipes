@@ -15,6 +15,7 @@ public interface TestValues {
 	Integer COOK_TIME = 5;
 	Integer PREP_TIME = 7;
 	String DESCRIPTION = "Description";
+	String NEW_DESCRIPTION = "Totally revamped description";
 	String RECIPE_NOTES = "Useful notes";
 	String NAME = "Henk";
 	String SOURCE = "Source";
