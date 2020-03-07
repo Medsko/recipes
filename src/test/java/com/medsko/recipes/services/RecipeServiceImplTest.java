@@ -9,8 +9,12 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class RecipeServiceImplTest {
@@ -27,7 +31,19 @@ class RecipeServiceImplTest {
 	}
 
 	@Test
-	void listRecipes() {
+	void getRecipeByIdTest() {
+		Long recipeId = 1L;
+		Recipe recipe = new Recipe();
+		when(recipeRepository.findById(recipeId)).thenReturn(Optional.of(recipe));
+
+		Recipe foundRecipe = recipeService.findById(recipeId);
+
+		assertNotNull(foundRecipe, "Recipe could not be retrieved!");
+		verify(recipeRepository).findById(anyLong());
+	}
+
+	@Test
+	void listRecipesTest() {
 
 		Recipe recipe = new Recipe();
 		List<Recipe> recipes = new ArrayList<>();

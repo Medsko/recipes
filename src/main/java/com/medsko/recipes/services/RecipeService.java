@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface RecipeService {
 
+	Recipe findById(Long id);
+
 	List<Recipe> listRecipes();
 }

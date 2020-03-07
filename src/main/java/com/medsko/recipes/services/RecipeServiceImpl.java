@@ -17,6 +17,11 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
+	public Recipe findById(Long id) {
+		return recipeRepository.findById(id).orElseThrow(()-> new RuntimeException("Recipe with id " + id + " not found!"));
+	}
+
+	@Override
 	public List<Recipe> listRecipes() {
 		List<Recipe> recipes = new ArrayList<>();
 		recipeRepository.findAll().forEach(recipes::add);
