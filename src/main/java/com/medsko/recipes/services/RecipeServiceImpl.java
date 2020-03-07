@@ -27,4 +27,8 @@ public class RecipeServiceImpl implements RecipeService {
 		recipeRepository.findAll().forEach(recipes::add);
 		return recipes;
 	}
+
+//	public RecipeCommand saveRecipeCommand(RecipeCommand command) {
+//		return
+//	}
 }

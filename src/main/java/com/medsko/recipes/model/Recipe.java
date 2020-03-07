@@ -59,11 +59,13 @@ public class Recipe {
 	}
 
 	public void addLabel(Label label) {
+		if (label == null) return;
 		label.addRecipe(this);
 		labels.add(label);
 	}
 
 	public void addIngredient(Ingredient ingredient) {
+		if (ingredient == null) return;
 		ingredient.setRecipe(this);
 		ingredients.add(ingredient);
 	}
