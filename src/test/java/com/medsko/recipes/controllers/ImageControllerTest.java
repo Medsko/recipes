@@ -14,10 +14,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -61,7 +59,7 @@ class ImageControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/recipe/1/image").file(file))
 				.andExpect(status().is3xxRedirection());
 
-		verify(imageService).saveImageFile(1L, any(MultipartFile.class));
+		verify(imageService).saveImageFile(1L, file);
 	}
 
 	@Test

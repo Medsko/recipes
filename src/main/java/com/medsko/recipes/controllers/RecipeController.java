@@ -1,16 +1,18 @@
 package com.medsko.recipes.controllers;
 
 import com.medsko.recipes.commands.RecipeCommand;
+import com.medsko.recipes.exceptions.NotFoundException;
 import com.medsko.recipes.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Slf4j
@@ -47,11 +49,19 @@ public class RecipeController {
 		return "redirect:/recipe/show/" + savedCommand.getId();
 	}
 
-	@PutMapping("{id}/delete")
+	@GetMapping("{id}/delete")
 	public String deleteRecipe(@PathVariable String id) {
 		log.debug("Deleting recipe with id: " + id);
 		recipeService.deleteById(new Long(id));
 		return "redirect:/";
+	}
+
+	@ExceptionHandler(NotFoundException.class)
+	public ModelAndView handleNotFound(Exception exception) {
+		log.error("Handling not found exception", exception);
+		ModelAndView modelAndView = new ModelAndView("404error.html");
+		modelAndView.addObject("exception", exception);
+		return modelAndView;
 	}
 
 }

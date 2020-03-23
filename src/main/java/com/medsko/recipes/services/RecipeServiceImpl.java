@@ -3,6 +3,7 @@ package com.medsko.recipes.services;
 import com.medsko.recipes.commands.RecipeCommand;
 import com.medsko.recipes.converters.RecipeCommandToRecipe;
 import com.medsko.recipes.converters.RecipeToRecipeCommand;
+import com.medsko.recipes.exceptions.NotFoundException;
 import com.medsko.recipes.model.Recipe;
 import com.medsko.recipes.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public Recipe findById(Long id) {
-		return recipeRepository.findById(id).orElseThrow(()-> new RuntimeException("Recipe with id " + id + " not found!"));
+		return recipeRepository.findById(id).orElseThrow(()-> new NotFoundException("Recipe with id " + id + " not found!"));
 	}
 
 	@Override

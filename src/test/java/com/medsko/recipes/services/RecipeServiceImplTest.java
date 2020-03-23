@@ -1,5 +1,6 @@
 package com.medsko.recipes.services;
 
+import com.medsko.recipes.exceptions.NotFoundException;
 import com.medsko.recipes.model.Recipe;
 import com.medsko.recipes.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,6 +42,13 @@ class RecipeServiceImplTest {
 
 		assertNotNull(foundRecipe, "Recipe could not be retrieved!");
 		verify(recipeRepository).findById(anyLong());
+	}
+
+	@Test
+	void findByIdNotFound() {
+		when(recipeRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+		assertThrows(NotFoundException.class, () -> recipeService.findById(1L));
 	}
 
 	@Test

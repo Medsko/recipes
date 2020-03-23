@@ -57,11 +57,6 @@ class RecipeControllerTest {
 	}
 
 	@Test
-	void testPostNewRecipeForm() {
-
-	}
-
-	@Test
 	void testGetUpdateView() throws Exception {
 		RecipeCommand command = new RecipeCommand();
 		command.setId(2L);

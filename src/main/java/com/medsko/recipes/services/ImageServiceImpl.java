@@ -1,5 +1,6 @@
 package com.medsko.recipes.services;
 
+import com.medsko.recipes.exceptions.NotFoundException;
 import com.medsko.recipes.model.Recipe;
 import com.medsko.recipes.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class ImageServiceImpl implements ImageService {
 	public void saveImageFile(Long recipeId, MultipartFile file) {
 
 		Recipe recipe = recipeRepository.findById(recipeId)
-				.orElseThrow(() -> new RuntimeException("Recipe with id " + recipeId + " could not be found!"));
+				.orElseThrow(() -> new NotFoundException("Recipe with id " + recipeId + " could not be found!"));
 
 		try {
 			recipe.setImage(file.getBytes());

@@ -3,6 +3,7 @@ package com.medsko.recipes.services;
 import com.medsko.recipes.commands.IngredientCommand;
 import com.medsko.recipes.converters.IngredientCommandToIngredient;
 import com.medsko.recipes.converters.IngredientToIngredientCommand;
+import com.medsko.recipes.exceptions.NotFoundException;
 import com.medsko.recipes.model.Ingredient;
 import com.medsko.recipes.model.Recipe;
 import com.medsko.recipes.repositories.RecipeRepository;
@@ -76,7 +77,7 @@ public class IngredientServiceImpl implements IngredientService {
 				.filter(ingredient -> ingredient.getId().equals(ingredientToSave.getId()))
 				.map(ingredientToIngredientCommand::convert)
 				.findFirst()
-				.orElseThrow(()-> new RuntimeException("Failed to save the ingredient to the recipe!"));
+				.orElseThrow(()-> new NotFoundException("Failed to save the ingredient to the recipe!"));
 	}
 
 	@Override
