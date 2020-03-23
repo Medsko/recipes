@@ -1,6 +1,7 @@
 package com.medsko.recipes.controllers;
 
 import com.medsko.recipes.commands.IngredientCommand;
+import com.medsko.recipes.commands.UnitOfMeasureCommand;
 import com.medsko.recipes.services.IngredientService;
 import com.medsko.recipes.services.RecipeService;
 import com.medsko.recipes.services.UnitOfMeasureService;
@@ -41,6 +42,20 @@ public class IngredientController {
 		return "recipe/ingredient/show";
 	}
 
+	@GetMapping("/ingredient/new")
+	public String newIngredient(@PathVariable String recipeId, Model model) {
+		// Make sure the provided recipeId is valid.
+		recipeService.findCommandById(new Long(recipeId));
+
+		IngredientCommand newIngredient = new IngredientCommand();
+		newIngredient.setRecipeId(new Long(recipeId));
+		newIngredient.setUnitOfMeasure(new UnitOfMeasureCommand());
+		model.addAttribute("ingredient", newIngredient);
+
+		model.addAttribute("uomList", unitOfMeasureService.listUnitOfMeasureCommands());
+		return "recipe/ingredient/ingredientForm";
+	}
+
 	@GetMapping("/ingredient/{ingredientId}/update")
 	public String updateIngredient(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
 		model.addAttribute("ingredient", ingredientService.findByRecipeIdAndId(new Long(recipeId), new Long(ingredientId)));
@@ -52,5 +67,11 @@ public class IngredientController {
 	public String saveOrUpdateIngredient(@ModelAttribute IngredientCommand ingredientCommand) {
 		IngredientCommand savedIngredient = ingredientService.saveIngredientCommand(ingredientCommand);
 		return "redirect:/recipe/" + savedIngredient.getRecipeId() + "/ingredient/" + savedIngredient.getId() + "/show";
+	}
+
+	@GetMapping("/ingredient/{ingredientId}/delete")
+	public String deleteIngredient(@PathVariable String recipeId, @PathVariable String ingredientId) {
+		ingredientService.deleteById(new Long(recipeId), new Long(ingredientId));
+		return "redirect:/recipe/" + recipeId + "/ingredients";
 	}
 }

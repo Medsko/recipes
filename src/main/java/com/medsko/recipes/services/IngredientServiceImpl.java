@@ -67,6 +67,7 @@ public class IngredientServiceImpl implements IngredientService {
 		}
 
 		final Ingredient ingredientToSave = ingredientCommandToIngredient.convert(command);
+		ingredientToSave.setRecipe(recipe);
 		recipe.addIngredient(ingredientToSave);
 
 		Recipe savedRecipe = recipeRepository.save(recipe);
@@ -76,5 +77,23 @@ public class IngredientServiceImpl implements IngredientService {
 				.map(ingredientToIngredientCommand::convert)
 				.findFirst()
 				.orElseThrow(()-> new RuntimeException("Failed to save the ingredient to the recipe!"));
+	}
+
+	@Override
+	public void deleteById(Long recipeId, Long ingredientId) {
+		Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+		if (!recipeOptional.isPresent()) {
+			log.debug("Recipe with id " + recipeId + " could not be found.");
+			return;
+		}
+
+		Recipe recipe = recipeOptional.get();
+		if (!recipe.getIngredients().removeIf(ingredient -> ingredient.getId().equals(ingredientId))) {
+			log.debug("Ingredient with id " + ingredientId + " could not be found for recipe " + recipeId + ".");
+			return;
+		}
+
+		log.debug("Ingredient with id " + ingredientId + " will be deleted from recipe " + recipeId + ".");
+		recipeRepository.save(recipe);
 	}
 }
