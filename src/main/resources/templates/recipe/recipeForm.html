@@ -65,10 +65,13 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Difficulty:</label>
-                                    <select class="form-control">
-                                        <option>Easy</option>
-                                        <option>Medium</option>
-                                        <option>Hard</option>
+                                    <select class="form-control" th:field="*{difficulty}">
+                                        <!--/*@thymesVar id="difficultyValue" type="com.medsko.recipes.model.Difficulty"*/-->
+                                        <option th:each="difficultyValue : ${T(com.medsko.recipes.model.Difficulty).values()}"
+                                                th:value="${difficultyValue.name()}"
+                                                th:text="${difficultyValue.name().toLowerCase()}">
+                                            val
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -125,6 +128,7 @@
                         <div class="panel-body">
                             <div class="row" th:each="directionStep : *{directionSteps}">
                                 <div class="col-md-12 form-group">
+                                    <!--/*@thymesVar id="directionStep" type="com.medsko.recipes.model.DirectionStep"*/-->
                                     <textarea class="form-control" rows="3" th:field="*{directionStep.description}"></textarea>
                                 </div>
                             </div>

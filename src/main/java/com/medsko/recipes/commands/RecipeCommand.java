@@ -21,6 +21,7 @@ public class RecipeCommand {
 	private String url;
 	private Difficulty difficulty;
 	private NotesCommand notes;
+	private byte[] image;
 
 	private List<DirectionStepCommand> directionSteps = new ArrayList<>();
 	private List<IngredientCommand> ingredients = new ArrayList<>();
