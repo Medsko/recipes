@@ -1,11 +1,14 @@
 package com.medsko.recipes.services;
 
 import com.medsko.recipes.commands.IngredientCommand;
+import com.medsko.recipes.converters.IngredientCommandToIngredient;
 import com.medsko.recipes.converters.IngredientToIngredientCommand;
+import com.medsko.recipes.model.Ingredient;
 import com.medsko.recipes.model.Recipe;
 import com.medsko.recipes.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -14,11 +17,15 @@ import java.util.Optional;
 public class IngredientServiceImpl implements IngredientService {
 
 	private final IngredientToIngredientCommand ingredientToIngredientCommand;
+	private final IngredientCommandToIngredient ingredientCommandToIngredient;
 	private final RecipeRepository recipeRepository;
 
-	public IngredientServiceImpl(IngredientToIngredientCommand ingredientToIngredientCommand, RecipeRepository recipeRepository) {
+	public IngredientServiceImpl(IngredientToIngredientCommand ingredientToIngredientCommand,
+	                             RecipeRepository recipeRepository,
+	                             IngredientCommandToIngredient ingredientCommandToIngredient) {
 		this.ingredientToIngredientCommand = ingredientToIngredientCommand;
 		this.recipeRepository = recipeRepository;
+		this.ingredientCommandToIngredient = ingredientCommandToIngredient;
 	}
 
 	@Override
@@ -47,5 +54,27 @@ public class IngredientServiceImpl implements IngredientService {
 		}
 
 		return optionalIngredientCommand.get();
+	}
+
+	@Override
+	@Transactional
+	public IngredientCommand saveIngredientCommand(IngredientCommand command) {
+		Recipe recipe = recipeRepository.findById(command.getRecipeId())
+				.orElseThrow(()-> new IllegalStateException("Recipe " + command.getRecipeId() + " could not be found!"));
+
+		if (command.getId() != null) {
+			recipe.getIngredients().removeIf(ingredient -> ingredient.getId().equals(command.getId()));
+		}
+
+		final Ingredient ingredientToSave = ingredientCommandToIngredient.convert(command);
+		recipe.addIngredient(ingredientToSave);
+
+		Recipe savedRecipe = recipeRepository.save(recipe);
+
+		return savedRecipe.getIngredients().stream()
+				.filter(ingredient -> ingredient.getId().equals(ingredientToSave.getId()))
+				.map(ingredientToIngredientCommand::convert)
+				.findFirst()
+				.orElseThrow(()-> new RuntimeException("Failed to save the ingredient to the recipe!"));
 	}
 }

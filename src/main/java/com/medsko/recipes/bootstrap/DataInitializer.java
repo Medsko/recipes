@@ -96,16 +96,16 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
 		RecipeBuilder builder = new RecipeBuilder();
 
-		Recipe guac = builder.magicFill("Perfect guacamole", Difficulty.EASY, 10, null, "simplyrecipes.com",
+		final Recipe guac = builder.magicFill("Perfect guacamole", Difficulty.EASY, 10, null, "simplyrecipes.com",
 				"https://www.simplyrecipes.com/recipes/perfect_guacamole/")
-		.withIngredient(new BigDecimal(2), null, "ripe avocados")
+		.withIngredient(new BigDecimal(2), createOrRetrieveUnitOfMeasure(""), "ripe avocados")
 		.withIngredient(new BigDecimal(0.25), createOrRetrieveUnitOfMeasure("teaspoon"), "salt")
 		.withIngredient(new BigDecimal(1), createOrRetrieveUnitOfMeasure("tablespoon"), "fresh lime or lemon juice")
 		.withIngredient(new BigDecimal(2), createOrRetrieveUnitOfMeasure("tablespoon"), "minced red onion")
-		.withIngredient(new BigDecimal(2), null, "serrano chiles, stems and seeds removed, minced")
+		.withIngredient(new BigDecimal(2), createOrRetrieveUnitOfMeasure(""), "serrano chiles, stems and seeds removed, minced")
 		.withIngredient(new BigDecimal(2), createOrRetrieveUnitOfMeasure("tablespoon"), "cilantro (leaves and tender stems), finely chopped")
 		.withIngredient(null, createOrRetrieveUnitOfMeasure("dash"), "freshly grated black pepper")
-		.withIngredient(new BigDecimal(0.5), null, "ripe tomato, seeds and pulp removed, chopped")
+		.withIngredient(new BigDecimal(0.5), createOrRetrieveUnitOfMeasure(""), "ripe tomato, seeds and pulp removed, chopped")
 		.withDirectionStep("Cut the avocado, remove flesh: Cut the avocados in half. Remove the pit. " +
 				"Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon. " +
 				"(See How to Cut and Peel an Avocado.) Place in a bowl.")
