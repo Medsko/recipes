@@ -32,7 +32,9 @@ class RecipeControllerTest {
 
 	@BeforeEach
 	void setUp() {
-		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(controller)
+				.setControllerAdvice(new ErrorController())
+				.build();
 	}
 
 	@Test
@@ -74,5 +76,12 @@ class RecipeControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/delete"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/"));
+	}
+
+	@Test
+	void handleNumberFormatException() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/recipe/qwer/update"))
+				.andExpect(status().isBadRequest())
+				.andExpect(view().name("400error"));
 	}
 }
