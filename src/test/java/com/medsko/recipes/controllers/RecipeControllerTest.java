@@ -51,7 +51,7 @@ class RecipeControllerTest {
 	}
 
 	@Test
-	void testNewRecipe() throws Exception {
+	void getNewRecipe() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/recipe/new"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("recipe/recipeForm"))
